@@ -1,0 +1,68 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+<title>DevBuddy | Hackathon Details</title>
+{% endblock %}
+
+{% block css %}
+<link rel="stylesheet" href="{% static 'css/displayteam.css' %}">
+{% endblock %}
+
+{% block left %}
+<div class="container mx-auto px-4 py-6">
+    <!-- Hackathon Details in Compact Format -->
+    <div class="bg-gray-100 p-4 rounded-md shadow-sm">
+        <h1 class="text-xl font-semibold">
+            Hackathon Name: <span class="font-normal">{{ hackathon.name }}</span>
+        </h1>
+        <p class="mt-2 text-sm">
+            Description: <span class="font-normal">{{ hackathon.description }}</span>
+        </p>
+    </div>
+    
+    <hr class="border-gray-300 my-6">
+
+    <!-- Teams Table -->
+    <h2 class="text-lg font-semibold mb-4">Participating Teams</h2>
+
+    <div class="overflow-x-auto">
+        <table class="min-w-full bg-white shadow-md rounded-lg overflow-hidden">
+            <thead>
+                <tr class="bg-gray-200 text-gray-700 text-left text-sm uppercase leading-normal">
+                    <th class="py-3 px-6">Team Name</th>
+                    <th class="py-3 px-6">Team Leader</th>
+                    <th class="py-3 px-6">Team Description</th>
+                    <th class="py-3 px-6">Team Members</th>
+                    <th class="py-3 px-6">Team Projects</th>
+                </tr>
+            </thead>
+            <tbody class="text-gray-600 text-sm font-light">
+                {% for team_detail in team_details %}
+                <tr class="border-b border-gray-200 hover:bg-gray-100">
+                    <td class="py-3 px-6 whitespace-nowrap">{{ team_detail.team.name }}</td>
+                    <td class="py-3 px-6 whitespace-nowrap">{{ team_detail.team.teamleader.username }}</td>
+                    <td class="py-3 px-6">{{ team_detail.team.description }}</td>
+                    <td class="py-3 px-6">
+                        <ul class="list-disc list-inside">
+                            {% for member in team_detail.members %}
+                                <li>{{ member.username }}</li>
+                            {% empty %}
+                                <li>No Members</li>
+                            {% endfor %}
+                        </ul>
+                    </td>
+                    <td>
+                    {% if detail.project %}
+                    <a href="{{ detail.project.repo_url }}" class="btn btn-primary">View Project</a>
+                    {% else %}
+                    <span>No Project</span>
+                    {% endif %}
+                </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+</div>
+{% endblock %}

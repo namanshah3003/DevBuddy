@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block css %}
+{% endblock css %}
+{% block left %}
+<div class="outer p-4">
+  <form class="chat-input flex mb-4" action="{% url 'searchhackathon' %}" method="POST">
+      {% csrf_token %}
+      <input type="text" name="query" value="{{ query }}" placeholder="Search hackathons..." class="flex-1 border border-gray-300 px-3 py-2 rounded-md">
+      <button type="submit" class="ml-2 bg-blue-500 text-white px-3 py-2 rounded-md hover:bg-blue-600">
+        <i class="fa-solid fa-magnifying-glass"></i>
+      </button>
+  </form>
+  <div id="hackathon-list">
+    <table class="min-w-full bg-white border border-gray-300">
+      <thead>
+        <tr>
+          <th class="py-2 px-4 border-b">Hackathon Name</th>
+          <th class="py-2 px-4 border-b">Organization</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for hackathon in hackathons %}
+        <tr>
+          <td class="py-2 px-4 border-b">
+            <a href="{% url 'uhackathon' hack=hackathon.name %}" class="text-blue-500 hover:underline">{{ hackathon.name }}</a>
+          </td>
+          <td class="py-2 px-4 border-b">{{ hackathon.organization }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}
